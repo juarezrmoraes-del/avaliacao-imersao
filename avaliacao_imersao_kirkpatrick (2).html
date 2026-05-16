@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avaliação · Imersão Neurociência & IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e11;
+    --paper: #f5f2eb;
+    --cream: #ede8dc;
+    --gold: #c9993b;
+    --gold-light: #e8c97a;
+    --rust: #b84c2a;
+    --green: #2a6b4c;
+    --muted: #7a7267;
+    --border: #d4cfc4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+  .hero { background: var(--ink); color: var(--paper); padding: 60px 40px 50px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; border: 1px solid rgba(201,153,59,0.3); border-radius: 50%; }
+  .hero::after { content: ''; position: absolute; bottom: -60px; left: 40px; width: 180px; height: 180px; border: 1px solid rgba(201,153,59,0.2); border-radius: 50%; }
+  .hero-inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-tag { display: inline-block; background: var(--gold); color: var(--ink); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; margin-bottom: 24px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 46px); font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
+  .hero h1 em { color: var(--gold-light); font-style: normal; }
+  .hero p { font-size: 15px; color: rgba(245,242,235,0.7); line-height: 1.7; max-width: 500px; }
+
+  .legend { background: var(--cream); border-bottom: 1px solid var(--border); padding: 20px 40px; }
+  .legend-inner { max-width: 720px; margin: 0 auto; display: flex; gap: 20px; flex-wrap: wrap; }
+  .level-badge { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+  .level-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dot-1 { background: #4a90d9; } .dot-2 { background: var(--green); } .dot-3 { background: var(--gold); } .dot-4 { background: var(--rust); }
+
+  main { max-width: 720px; margin: 0 auto; padding: 50px 40px 80px; }
+  .form-section { margin-bottom: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--border); }
+  .form-section:last-of-type { border-bottom: none; }
+  .section-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 28px; }
+  .level-number { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+  .n1 { background: #4a90d9; color: white; } .n2 { background: var(--green); color: white; } .n3 { background: var(--gold); color: var(--ink); } .n4 { background: var(--rust); color: white; }
+  .section-title h2 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .section-title p { font-size: 13px; color: var(--muted); }
+
+  .question { margin-bottom: 24px; }
+  .question label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 10px; line-height: 1.5; }
+
+  .scale { display: flex; }
+  .scale input[type="radio"] { display: none; }
+  .scale label { flex: 1; text-align: center; padding: 10px 4px 8px; border: 1px solid var(--border); border-right: none; cursor: pointer; font-size: 13px; font-weight: 400; transition: all 0.15s; background: white; margin: 0; }
+  .scale label:last-child { border-right: 1px solid var(--border); }
+  .scale input:checked + label { background: var(--ink); color: var(--paper); border-color: var(--ink); font-weight: 500; }
+  .scale-labels { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--muted); }
+
+  textarea { width: 100%; border: 1px solid var(--border); background: white; padding: 14px 16px; font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6; resize: vertical; min-height: 90px; color: var(--ink); transition: border-color 0.2s; }
+  textarea:focus { outline: none; border-color: var(--gold); }
+  textarea::placeholder { color: var(--muted); }
+
+  select { width: 100%; border: 1px solid var(--border); background: white; padding: 12px 16px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7267' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; cursor: pointer; }
+  select:focus { outline: none; border-color: var(--gold); }
+
+  .checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .checkbox-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--border); background: white; cursor: pointer; transition: all 0.15s; font-size: 13px; }
+  .checkbox-item:hover { border-color: var(--gold); }
+  .checkbox-item input { accent-color: var(--gold); width: 16px; height: 16px; }
+
+  .id-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+  .field-group label { display: block; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  input[type="text"], input[type="email"] { width: 100%; border: 1px solid var(--border); background: white; padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); }
+  input:focus { outline: none; border-color: var(--gold); }
+
+  .submit-area { text-align: center; padding-top: 16px; }
+  .btn-submit { background: var(--ink); color: var(--paper); border: none; padding: 16px 56px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; letter-spacing: 0.5px; cursor: pointer; transition: all 0.2s; }
+  .btn-submit:hover { background: #2a2830; }
+  .btn-submit:disabled { background: var(--muted); cursor: not-allowed; }
+  .submit-note { font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+  .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(15,14,17,0.75); z-index: 100; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
+  .loading-overlay.active { display: flex; }
+  .spinner { width: 48px; height: 48px; border: 3px solid rgba(255,255,255,0.2); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-overlay p { color: white; font-size: 15px; }
+
+  .success-screen { display: none; text-align: center; padding: 80px 40px; }
+  .success-icon { width: 80px; height: 80px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 36px; color: white; }
+  .success-screen h2 { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 12px; }
+  .success-screen p { color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 420px; margin: 0 auto; }
+  .success-tag { display: inline-block; background: var(--green); color: white; font-size: 11px; letter-spacing: 1px; padding: 4px 14px; margin-bottom: 20px; }
+
+  .error-box { display: none; background: #fdeee9; border-left: 4px solid var(--rust); padding: 14px 18px; margin-top: 16px; font-size: 13px; color: var(--rust); text-align: left; }
+
+  @media(max-width: 600px) {
+    main { padding: 32px 20px 60px; } .hero { padding: 40px 20px 36px; } .legend { padding: 16px 20px; }
+    .id-grid { grid-template-columns: 1fr; } .checkbox-grid { grid-template-columns: 1fr; }
+    .scale label { font-size: 11px; padding: 8px 2px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <p>Enviando sua avaliação...</p>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Avaliação · Modelo Kirkpatrick</span>
+    <h1>Imersão <em>Neurociência & IA</em><br>para Lideranças</h1>
+    <p>Sua avaliação é fundamental para evoluirmos continuamente. Responda com sinceridade — leva cerca de 5 minutos.</p>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-inner">
+    <span class="level-badge"><span class="level-dot dot-1"></span>Nível 1 · Reação</span>
+    <span class="level-badge"><span class="level-dot dot-2"></span>Nível 2 · Aprendizado</span>
+    <span class="level-badge"><span class="level-dot dot-3"></span>Nível 3 · Comportamento</span>
+    <span class="level-badge"><span class="level-dot dot-4"></span>Nível 4 · Resultados</span>
+  </div>
+</div>
+
+<main>
+  <form id="evalForm">
+
+    <div class="form-section">
+      <div class="id-grid">
+        <div class="field-group"><label>Nome</label><input type="text" name="nome" placeholder="Seu nome completo" required></div>
+        <div class="field-group"><label>Área / Departamento</label><input type="text" name="area" placeholder="Ex: Recursos Humanos" required></div>
+        <div class="field-group"><label>E-mail</label><input type="email" name="email" placeholder="seu@email.com"></div>
+        <div class="field-group"><label>Data da Imersão</label><input type="text" name="data" placeholder="dd/mm/aaaa" required></div>
+      </div>
+    </div>
+
+    <!-- N1 -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="level-number n1">1</div>
+        <div class="section-title"><h2>Reação — Como foi a experiência?</h2><p>Avalia a satisfação imediata e percepção de valor da imersão.</p></div>
+      </div>
+      <div class="question">
+        <label>1. Como você avalia o conteúdo geral da imersão?</label>
+        <div class="scale">
+          <input type="radio" name="r1_conteudo" id="c1" value="1" required><label for="c1">1</label>
+          <input type="radio" name="r1_conteudo" id="c2" value="2"><label for="c2">2</label>
+          <input type="radio" name="r1_conteudo" id="c3" value="3"><label for="c3">3</label>
+          <input type="radio" name="r1_conteudo" id="c4" value="4"><label for="c4">4</label>
+          <input type="radio" name="r1_conteudo" id="c5" value="5"><label for="c5">5</label>
+        </div>
+        <div class="scale-labels"><span>Muito fraco</span><span>Excelente</span></div>
+      </div>
+      <div class="question">
+        <label>2. A duração de 1h30 foi adequada?</label>
+        <div class="scale">
+          <input type="radio" name="r1_duracao" id="d1" value="1" required><label for="d1">1</label>
+          <input type="radio" name="r1_duracao" id="d2" value="2"><label for="d2">2</label>
+          <input type="radio" name="r1_duracao" id="d3" value="3"><label for="d3">3</label>
+          <input type="radio" name="r1_duracao" id="d4" value="4"><label for="d4">4</label>
+          <input type="radio" name="r1_duracao" id="d5" value="5"><label for="d5">5</label>
+        </div>
+        <div class="scale-labels"><span>Muito curto/longo</span><span>Ideal</span></div>
+      </div>
+      <div class="question">
+        <label>3. Como você avalia a aplicabilidade prática do NotebookLM?</label>
+        <div class="scale">
+          <input type="radio" name="r1_notebook" id="n1" value="1" required><label for="n1">1</label>
+          <input type="radio" name="r1_notebook" id="n2" value="2"><label for="n2">2</label>
+          <input type="radio" name="r1_notebook" id="n3" value="3"><label for="n3">3</label>
+          <input type="radio" name="r1_notebook" id="n4" value="4"><label for="n4">4</label>
+          <input type="radio" name="r1_notebook" id="n5" value="5"><label for="n5">5</label>
+        </div>
+        <div class="scale-labels"><span>Nada aplicável</span><span>Muito aplicável</span></div>
+      </div>
+      <div class="question"><label>4. O que mais chamou sua atenção positivamente?</label><textarea name="r1_positivo" placeholder="Descreva o aspecto que mais te impactou..."></textarea></div>
+      <div class="question"><label>5. O que poderia ser melhorado?</label><textarea name="r1_melhoria" placeholder="Sugestões construtivas são muito bem-vindas..."></textarea></div>
+    </div>
+
+    <!-- N2 -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="level-number n2">2</div>
+        <div class="section-title"><h2>Aprendizado — O que ficou?</h2><p>Avalia o conhecimento e habilidades adquiridos durante a imersão.</p></div>
+      </div>
+      <div class="question"><label>6. Como você descreveria neuroplasticidade com suas próprias palavras?</label><textarea name="r2_neuroplasticidade" placeholder="Escreva como explicaria para um colega..."></textarea></div>
+      <div class="question">
+        <label>7. Quais estratégias de aprendizado ativo você aprendeu? (marque todas que se aplicam)</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item"><input type="checkbox" name="r2_estrategias" value="Active Recall"> Active Recall</label>
+          <label class="checkbox-item"><input type="checkbox" name="r2_estrategias" value="Repetição Espaçada"> Repetição Espaçada</label>
+          <label class="checkbox-item"><input type="checkbox" name="r2_estrategias" value="Técnica de Feynman"> Técnica de Feynman</label>
+          <label class="checkbox-item"><input type="checkbox" name="r2_estrategias" value="Prática Intercalada"> Prática Intercalada</label>
+          <label class="checkbox-item"><input type="checkbox" name="r2_estrategias" value="Source-Grounding"> Source-Grounding (IA)</label>
+          <label class="checkbox-item"><input type="checkbox" name="r2_estrategias" value="Flashcards/Audio"> Flashcards / Audio Overview</label>
+        </div>
+      </div>
+      <div class="question">
+        <label>8. Sua confiança no uso de IA para aprendizado ANTES da imersão?</label>
+        <div class="scale">
+          <input type="radio" name="r2_antes" id="a1" value="1" required><label for="a1">1</label>
+          <input type="radio" name="r2_antes" id="a2" value="2"><label for="a2">2</label>
+          <input type="radio" name="r2_antes" id="a3" value="3"><label for="a3">3</label>
+          <input type="radio" name="r2_antes" id="a4" value="4"><label for="a4">4</label>
+          <input type="radio" name="r2_antes" id="a5" value="5"><label for="a5">5</label>
+        </div>
+        <div class="scale-labels"><span>Nenhuma confiança</span><span>Muito confiante</span></div>
+      </div>
+      <div class="question">
+        <label>9. Sua confiança no uso de IA para aprendizado DEPOIS da imersão?</label>
+        <div class="scale">
+          <input type="radio" name="r2_depois" id="b1" value="1" required><label for="b1">1</label>
+          <input type="radio" name="r2_depois" id="b2" value="2"><label for="b2">2</label>
+          <input type="radio" name="r2_depois" id="b3" value="3"><label for="b3">3</label>
+          <input type="radio" name="r2_depois" id="b4" value="4"><label for="b4">4</label>
+          <input type="radio" name="r2_depois" id="b5" value="5"><label for="b5">5</label>
+        </div>
+        <div class="scale-labels"><span>Nenhuma confiança</span><span>Muito confiante</span></div>
+      </div>
+    </div>
+
+    <!-- N3 -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="level-number n3">3</div>
+        <div class="section-title"><h2>Comportamento — Intenção de mudança</h2><p>Avalia a disposição de aplicar o aprendizado no dia a dia.</p></div>
+      </div>
+      <div class="question"><label>10. Qual material da sua área você planeja subir no NotebookLM esta semana?</label><textarea name="r3_material" placeholder="Ex: Manual de compliance, Diretriz de RH 2025..."></textarea></div>
+      <div class="question">
+        <label>11. Qual etapa do ciclo de 8 passos você tem mais intenção de usar imediatamente?</label>
+        <select name="r3_passo" required>
+          <option value="" disabled selected>Selecione um passo...</option>
+          <option>Passo 1 — Definir Propósito</option>
+          <option>Passo 2/3 — Quebra e Seleção de Material</option>
+          <option>Passo 4/5 — Validação e Comparação</option>
+          <option>Passo 6 — Quizzes (Active Recall)</option>
+          <option>Passo 7 — Técnica de Feynman</option>
+          <option>Passo 8 — Flashcards e Audio Overview</option>
+        </select>
+      </div>
+      <div class="question"><label>12. Que barreiras você prevê para aplicar o que aprendeu?</label><textarea name="r3_barreiras" placeholder="Ex: falta de tempo, acesso à ferramenta..."></textarea></div>
+      <div class="question">
+        <label>13. Probabilidade de recomendar esta imersão a outros líderes?</label>
+        <div class="scale">
+          <input type="radio" name="r3_nps" id="e1" value="1" required><label for="e1">1</label>
+          <input type="radio" name="r3_nps" id="e2" value="2"><label for="e2">2</label>
+          <input type="radio" name="r3_nps" id="e3" value="3"><label for="e3">3</label>
+          <input type="radio" name="r3_nps" id="e4" value="4"><label for="e4">4</label>
+          <input type="radio" name="r3_nps" id="e5" value="5"><label for="e5">5</label>
+          <input type="radio" name="r3_nps" id="e6" value="6"><label for="e6">6</label>
+          <input type="radio" name="r3_nps" id="e7" value="7"><label for="e7">7</label>
+          <input type="radio" name="r3_nps" id="e8" value="8"><label for="e8">8</label>
+          <input type="radio" name="r3_nps" id="e9" value="9"><label for="e9">9</label>
+          <input type="radio" name="r3_nps" id="e10" value="10"><label for="e10">10</label>
+        </div>
+        <div class="scale-labels"><span>Nunca indicaria</span><span>Com certeza indicaria</span></div>
+      </div>
+    </div>
+
+    <!-- N4 -->
+    <div class="form-section">
+      <div class="section-header">
+        <div class="level-number n4">4</div>
+        <div class="section-title"><h2>Resultados — Impacto esperado</h2><p>Avalia a expectativa de impacto no desempenho e nos resultados organizacionais.</p></div>
+      </div>
+      <div class="question">
+        <label>14. Em que áreas você espera que essa imersão gere impacto real?</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item"><input type="checkbox" name="r4_impacto" value="Produtividade"> Ganho de produtividade</label>
+          <label class="checkbox-item"><input type="checkbox" name="r4_impacto" value="Decisão"> Melhor tomada de decisão</label>
+          <label class="checkbox-item"><input type="checkbox" name="r4_impacto" value="Equipe"> Desenvolvimento da equipe</label>
+          <label class="checkbox-item"><input type="checkbox" name="r4_impacto" value="Inovação"> Cultura de inovação</label>
+          <label class="checkbox-item"><input type="checkbox" name="r4_impacto" value="Conformidade"> Conformidade / Compliance</label>
+          <label class="checkbox-item"><input type="checkbox" name="r4_impacto" value="Outro"> Outro</label>
+        </div>
+      </div>
+      <div class="question"><label>15. Que resultado concreto você espera alcançar em 30 dias?</label><textarea name="r4_meta30" placeholder="Descreva um resultado mensurável e específico..."></textarea></div>
+      <div class="question"><label>16. Comentários finais ou sugestões para próximas imersões?</label><textarea name="r4_final" placeholder="Qualquer coisa que queira compartilhar..."></textarea></div>
+    </div>
+
+    <div class="submit-area">
+      <button type="button" class="btn-submit" onclick="submitForm()">Enviar Avaliação</button>
+      <div class="error-box" id="errorBox"></div>
+      <p class="submit-note">Suas respostas são salvas automaticamente na planilha de consolidação.</p>
+    </div>
+  </form>
+
+  <div class="success-screen" id="successScreen">
+    <span class="success-tag">✓ ENVIADO COM SUCESSO</span>
+    <div class="success-icon">✓</div>
+    <h2>Obrigado pela avaliação!</h2>
+    <p>Suas respostas foram registradas na planilha de consolidação. Sua contribuição é essencial para continuarmos evoluindo o programa.</p>
+  </div>
+</main>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-luLhbD2Nyvqp0eaBFsqiIxVYY596rH7KXTPqAF5U5Z39cSjouh_8uGBp-z2E7XUULg/exec";
+
+  function collectData() {
+    const fd = new FormData(document.getElementById('evalForm'));
+    const data = { timestamp: new Date().toLocaleString('pt-BR') };
+    const multi = ['r2_estrategias', 'r4_impacto'];
+    multi.forEach(f => data[f] = []);
+    for (let [k, v] of fd.entries()) {
+      if (multi.includes(k)) data[k].push(v);
+      else data[k] = v;
+    }
+    multi.forEach(f => data[f] = data[f].join('; '));
+    return data;
+  }
+
+  function validateForm() {
+    const requiredRadios = ['r1_conteudo','r1_duracao','r1_notebook','r2_antes','r2_depois','r3_nps'];
+    for (let name of requiredRadios) {
+      if (!document.querySelector(`[name="${name}"]:checked`)) {
+        document.querySelector(`[name="${name}"]`).closest('.question').scrollIntoView({ behavior:'smooth', block:'center' });
+        return false;
+      }
+    }
+    const requiredText = ['nome','area','data','r3_passo'];
+    for (let name of requiredText) {
+      const el = document.querySelector(`[name="${name}"]`);
+      if (!el || !el.value.trim()) {
+        el.scrollIntoView({ behavior:'smooth', block:'center' });
+        el.focus();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function submitForm() {
+    const errorBox = document.getElementById('errorBox');
+    errorBox.style.display = 'none';
+
+    if (!validateForm()) {
+      errorBox.style.display = 'block';
+      errorBox.textContent = '⚠️ Preencha todos os campos obrigatórios antes de enviar.';
+      return;
+    }
+
+    const overlay = document.getElementById('loadingOverlay');
+    const btn = document.querySelector('.btn-submit');
+    overlay.classList.add('active');
+    btn.disabled = true;
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(collectData())
+    })
+    .then(() => {
+      overlay.classList.remove('active');
+      document.getElementById('evalForm').style.display = 'none';
+      document.getElementById('successScreen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .catch(() => {
+      overlay.classList.remove('active');
+      btn.disabled = false;
+      errorBox.style.display = 'block';
+      errorBox.textContent = '⚠️ Erro ao enviar. Verifique sua conexão e tente novamente.';
+    });
+  }
+</script>
+</body>
+</html>
